@@ -13,6 +13,7 @@
 import React, { useEffect, useState } from 'react';
 import { Users, Circle, MessageSquare, X, Share, Eye, Edit3 } from 'lucide-react';
 import { useAppStore } from '../../stores';
+import { API_BASE } from '../../services/api';
 import { 
   initCollaboration, 
   getCollaborationProvider, 
@@ -64,7 +65,7 @@ export function CollaborationPanel() {
     if (!projectId) return;
     
     try {
-      const response = await fetch(`http://localhost:3001/api/collab/${projectId}/share`, {
+      const response = await fetch(`${API_BASE}/collab/${projectId}/share`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ permission: 'edit' }),

@@ -27,7 +27,7 @@ export function initCollaboration(projectId: string, user: { id: string; name: s
   currentProjectId = projectId;
   
   wsProvider = new WebsocketProvider(
-    'ws://localhost:3002',
+    'wss://devsandboxcodeeditor.onrender.com',
     `project_${projectId}`,
     ydoc,
     {

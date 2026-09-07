@@ -10,7 +10,7 @@
  * All project data shown/accessed is completely legal, free and publicly
  * accessible data and not proprietary data.
  */
-const API_BASE = 'http://localhost:3001/api';
+export const API_BASE = 'https://devsandboxcodeeditor.onrender.com/api';
 
 async function request(endpoint: string, options: RequestInit = {}) {
   const token = localStorage.getItem('devsandbox_token');

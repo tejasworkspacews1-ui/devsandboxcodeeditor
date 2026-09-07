@@ -13,6 +13,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User, Loader2, X, Code, FileText, Lightbulb } from 'lucide-react';
 import { useAppStore } from '../../stores';
+import { API_BASE } from '../../services/api';
 
 interface AIMessage {
   id: string;
@@ -94,7 +95,7 @@ export function AIAssistantPanel() {
         }
       }
       
-      const response = await fetch('http://localhost:3001/api/ai/chat', {
+      const response = await fetch(`${API_BASE}/ai/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
