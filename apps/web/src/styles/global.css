@@ -1,0 +1,85 @@
+/*!
+ * Developer: Tejas Kamble
+ * Email: tejaskgm1@gmail.com
+ * Website: https://tejas-personal-portfolio-dev.vercel.app/
+ * LinkedIn: https://www.linkedin.com/in/tejas-kamble-5342443b1
+ * Instagram: @tejask.co.in
+ * GitHub: https://github.com/tejasworkspacews1-ui
+ *
+ * Project Disclaimer:
+ * All project data shown/accessed is completely legal, free and publicly
+ * accessible data and not proprietary data.
+ */
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.0/index.min.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background: #1e1e1e;
+  color: #cccccc;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #424242;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4f4f51;
+}
+
+::-webkit-scrollbar-corner {
+  background: #1e1e1e;
+}
+
+.monaco-editor {
+  padding-top: 8px;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: #264f78;
+}
+
+:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 2px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
