@@ -1,0 +1,7 @@
+{
+  "name": "DevSandbox",
+  "description": "Professional browser-based developer sandbox and code editor",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
