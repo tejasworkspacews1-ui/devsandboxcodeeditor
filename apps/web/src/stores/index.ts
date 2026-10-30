@@ -173,7 +173,40 @@ export const useAppStore = create<AppState>()(
       splitRightFile: null,
       startOnboarding: false,
       
-      setCurrentProject: (projectId) => set({ currentProjectId: projectId }),
+      setCurrentProject: (projectId) => set((state) => {
+        if (!projectId) return { currentProjectId: null };
+        const project = state.projects.find(p => p.id === projectId);
+        if (!project) return { currentProjectId: projectId };
+        
+        const files = project.files || [];
+        const primaryFile = files.find(f => f.type === 'file' && (f.name === 'App.tsx' || f.name === 'index.html' || f.name === 'main.py')) || files.find(f => f.type === 'file');
+        
+        let newTabs: Tab[] = [];
+        let newActiveTabId: string | null = null;
+        
+        if (primaryFile) {
+          const tab: Tab = {
+            id: `tab_${primaryFile.id}`,
+            fileId: primaryFile.id,
+            name: primaryFile.name,
+            path: primaryFile.path,
+            content: primaryFile.content || '',
+            language: primaryFile.name.split('.').pop() || 'plaintext',
+            modified: false,
+            pinned: false,
+          };
+          newTabs = [tab];
+          newActiveTabId = tab.id;
+        }
+
+        return {
+          currentProjectId: projectId,
+          files,
+          selectedFileId: primaryFile ? primaryFile.id : null,
+          tabs: newTabs,
+          activeTabId: newActiveTabId,
+        };
+      }),
       setProjects: (projects) => set({ projects }),
       addProject: (project) => set((state) => ({
         projects: [...state.projects, project],

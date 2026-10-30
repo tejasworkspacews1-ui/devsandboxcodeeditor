@@ -68,13 +68,13 @@ export function ActivityBar() {
             <button
               key={item.id}
               onClick={() => setLayout({ activeView: item.id as any, sidebarCollapsed: false })}
-              className={`w-full aspect-square flex items-center justify-center relative group transition-colors ${isActive ? 'text-ide-text' : 'text-ide-textSecondary hover:text-ide-text'}`}
+              className={`w-full aspect-square flex items-center justify-center relative group transition-colors ${isActive ? 'text-zinc-100' : 'text-zinc-500 hover:text-zinc-200'}`}
               title={item.label}
             >
               {isActive && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-ide-accent" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-zinc-100" />
               )}
-              <Icon size={20} strokeWidth={isActive ? 2 : 1.5} />
+              <Icon size={19} strokeWidth={isActive ? 2 : 1.5} />
               <span className="sr-only">{item.label}</span>
             </button>
           );
@@ -84,27 +84,27 @@ export function ActivityBar() {
       <div className="flex flex-col gap-1 border-t border-ide-border pt-2">
         <button
           onClick={toggleSidebar}
-          className="w-full aspect-square flex items-center justify-center text-ide-textSecondary hover:text-ide-text transition-colors"
+          className="w-full aspect-square flex items-center justify-center text-zinc-500 hover:text-zinc-200 transition-colors"
           title="Toggle Sidebar"
         >
-          <SplitSquareHorizontal size={20} strokeWidth={1.5} />
+          <SplitSquareHorizontal size={19} strokeWidth={1.5} />
         </button>
         <button
           onClick={handleSettings}
-          className="w-full aspect-square flex items-center justify-center text-ide-textSecondary hover:text-ide-text transition-colors"
+          className="w-full aspect-square flex items-center justify-center text-zinc-500 hover:text-zinc-200 transition-colors"
           title="Settings"
         >
-          <Settings size={20} strokeWidth={1.5} />
+          <Settings size={19} strokeWidth={1.5} />
         </button>
         <button
           onClick={handleAccount}
-          className={`w-full aspect-square flex items-center justify-center relative transition-colors ${layout.activeView === 'account' ? 'text-ide-text' : 'text-ide-textSecondary hover:text-ide-text'}`}
+          className={`w-full aspect-square flex items-center justify-center relative transition-colors ${layout.activeView === 'account' ? 'text-zinc-100' : 'text-zinc-500 hover:text-zinc-200'}`}
           title="Multi-Tenant Dashboard"
         >
           {layout.activeView === 'account' && (
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-ide-accent" />
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-zinc-100" />
           )}
-          <User size={20} strokeWidth={layout.activeView === 'account' ? 2 : 1.5} />
+          <User size={19} strokeWidth={layout.activeView === 'account' ? 2 : 1.5} />
         </button>
       </div>
     </div>

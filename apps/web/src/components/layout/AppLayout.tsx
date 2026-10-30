@@ -152,10 +152,7 @@ export function App() {
           )}
         </div>
         
-        <div className="h-48 flex-shrink-0">
-          <BottomPanel />
-        </div>
-        
+        <BottomPanel />
         <StatusBar />
       </div>
     );
@@ -246,12 +243,7 @@ export function App() {
         </div>
       </div>
       
-      {!layout.panelCollapsed && (
-        <div className="h-64 flex-shrink-0">
-          <BottomPanel />
-        </div>
-      )}
-      
+      <BottomPanel />
       <StatusBar />
       <OnboardingTour />
     </div>

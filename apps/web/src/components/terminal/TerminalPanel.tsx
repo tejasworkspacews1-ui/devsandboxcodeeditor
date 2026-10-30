@@ -50,9 +50,9 @@ export function TerminalPanel() {
   useEffect(() => {
     if (activeTerminal && (!activeTerminal.output || activeTerminal.output === '$ Welcome to Terminal\n')) {
       const activeTenant = api.getActiveTenant();
-      const welcome = `\x1b[36mDevSandbox Virtual Cloud Terminal v2.4.0\x1b[0m
-Logged in as \x1b[32m${user?.name || 'Tejas Kamble'}\x1b[0m (\x1b[34m${activeTenant?.name || 'Primary Workspace'}\x1b[0m)
-Type \x1b[33mhelp\x1b[0m for available commands, or \x1b[33mneofetch\x1b[0m for system stats.
+      const welcome = `DevSandbox Cloud Shell v2.4.0 (x86_64-linux-gnu)
+Logged in as ${user?.name || 'Tejas Kamble'} (${activeTenant?.name || 'Primary Workspace'})
+Type 'help' for commands, 'ls' to inspect files, or 'touch <file>' to create code.
 \n`;
       updateTerminal(activeTerminal.id, { output: welcome });
     }
@@ -267,20 +267,20 @@ Type \x1b[33mhelp\x1b[0m for available commands, or \x1b[33mneofetch\x1b[0m for 
   };
 
   return (
-    <div className="h-full flex flex-col bg-gray-950 font-mono text-xs select-text">
+    <div className="h-full flex flex-col bg-[#121214] font-mono text-xs select-text">
       {/* Terminal Tab Bar */}
-      <div className="flex items-center justify-between px-3 py-1.5 bg-ide-sidebar border-b border-ide-border">
+      <div className="flex items-center justify-between px-3 py-1.5 bg-[#18181b] border-b border-ide-border">
         <div className="flex items-center gap-1.5">
-          <TerminalIcon size={14} className="text-blue-400" />
-          <span className="text-xs font-semibold text-ide-text">bash — {user?.name || 'Tejas Kamble'}</span>
-          <span className="text-[10px] text-ide-textSecondary px-1.5 py-0.5 rounded bg-ide-panel border border-ide-border">
+          <TerminalIcon size={13} className="text-zinc-400" />
+          <span className="text-xs font-semibold text-zinc-200">bash — {user?.name || 'Tejas Kamble'}</span>
+          <span className="text-[10px] text-zinc-400 px-1.5 py-0.2 rounded bg-zinc-800 border border-zinc-700">
             Interactive
           </span>
         </div>
         <div className="flex items-center gap-1">
           <button
             onClick={() => clearTerminal(activeTerminal?.id || 'term_1')}
-            className="p-1 text-ide-textSecondary hover:text-ide-text hover:bg-ide-panel rounded transition-colors"
+            className="p-1 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded transition-colors"
             title="Clear Terminal"
           >
             <Trash2 size={13} />
@@ -291,15 +291,15 @@ Type \x1b[33mhelp\x1b[0m for available commands, or \x1b[33mneofetch\x1b[0m for 
       {/* Terminal Output */}
       <div 
         ref={terminalScrollRef}
-        className="flex-1 overflow-y-auto p-3 text-ide-text whitespace-pre-wrap leading-relaxed select-text"
+        className="flex-1 overflow-y-auto p-3 text-zinc-200 whitespace-pre-wrap leading-relaxed select-text"
         onClick={() => inputRef.current?.focus()}
       >
         {activeTerminal?.output || ''}
       </div>
 
       {/* Terminal Input Line */}
-      <form onSubmit={handleCommand} className="flex items-center gap-2 px-3 py-2 bg-ide-panel border-t border-ide-border">
-        <span className="text-emerald-400 font-semibold select-none flex-shrink-0">
+      <form onSubmit={handleCommand} className="flex items-center gap-2 px-3 py-1.5 bg-[#18181b] border-t border-ide-border">
+        <span className="text-emerald-400 font-semibold select-none flex-shrink-0 text-xs">
           {user?.email ? user.email.split('@')[0] : 'tejas'}@devsandbox:~/workspace$
         </span>
         <input

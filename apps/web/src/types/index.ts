@@ -123,6 +123,7 @@ export interface LayoutState {
   sidebarCollapsed: boolean;
   panelCollapsed: boolean;
   activeView: 'explorer' | 'search' | 'git' | 'settings' | 'terminal' | 'problems' | 'output' | 'runtime' | 'ai' | 'extensions' | 'collab' | 'debug' | 'marketplace' | 'account';
+  bottomTab: 'terminal' | 'problems' | 'output' | 'search';
 }
 
 export const DEFAULT_SETTINGS: EditorSettings = {
@@ -142,7 +143,7 @@ export const DEFAULT_SETTINGS: EditorSettings = {
   formatOnSave: false,
   confirmDelete: true,
   terminalFontSize: 13,
-  accentColor: '#0078d4',
+  accentColor: '#3b82f6',
 };
 
 export const DEFAULT_LAYOUT: LayoutState = {
@@ -151,6 +152,7 @@ export const DEFAULT_LAYOUT: LayoutState = {
   sidebarCollapsed: false,
   panelCollapsed: false,
   activeView: 'explorer',
+  bottomTab: 'terminal',
 };
 
 export const DEFAULT_TERMINAL: Omit<TerminalSession, 'id'> = {

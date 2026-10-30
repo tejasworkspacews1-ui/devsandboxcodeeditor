@@ -100,24 +100,24 @@ export function FallbackPreview({ files }: FallbackPreviewProps) {
     <div className="h-full flex flex-col bg-gray-950 select-none overflow-hidden">
       {/* Device & Toolbar */}
       <div className="px-3 py-1.5 bg-ide-sidebar border-b border-ide-border flex items-center justify-between text-xs">
-        <div className="flex items-center gap-1 bg-ide-panel p-0.5 rounded border border-ide-border">
+        <div className="flex items-center gap-1 bg-zinc-900 p-0.5 rounded border border-zinc-800">
           <button
             onClick={() => setDeviceMode('desktop')}
-            className={`p-1 rounded transition-colors ${deviceMode === 'desktop' ? 'bg-ide-accent text-white' : 'text-ide-textSecondary hover:text-ide-text'}`}
+            className={`p-1 rounded transition-colors ${deviceMode === 'desktop' ? 'bg-zinc-800 text-zinc-100 shadow-sm' : 'text-zinc-400 hover:text-zinc-200'}`}
             title="Desktop Mode (100%)"
           >
             <Monitor size={13} />
           </button>
           <button
             onClick={() => setDeviceMode('tablet')}
-            className={`p-1 rounded transition-colors ${deviceMode === 'tablet' ? 'bg-ide-accent text-white' : 'text-ide-textSecondary hover:text-ide-text'}`}
+            className={`p-1 rounded transition-colors ${deviceMode === 'tablet' ? 'bg-zinc-800 text-zinc-100 shadow-sm' : 'text-zinc-400 hover:text-zinc-200'}`}
             title="Tablet Mode (768px)"
           >
             <Tablet size={13} />
           </button>
           <button
             onClick={() => setDeviceMode('mobile')}
-            className={`p-1 rounded transition-colors ${deviceMode === 'mobile' ? 'bg-ide-accent text-white' : 'text-ide-textSecondary hover:text-ide-text'}`}
+            className={`p-1 rounded transition-colors ${deviceMode === 'mobile' ? 'bg-zinc-800 text-zinc-100 shadow-sm' : 'text-zinc-400 hover:text-zinc-200'}`}
             title="Mobile Mode (375px)"
           >
             <Smartphone size={13} />
@@ -333,7 +333,25 @@ function buildExecutablePreviewDocument(files: FileNode[]): string {
 
   // 2. Standard HTML/CSS/JS Project
   if (indexHtml) {
-    let content = indexHtml.content || '<!DOCTYPE html><html><body>Empty HTML</body></html>';
+    let content = indexHtml.content && indexHtml.content.trim() 
+      ? indexHtml.content 
+      : `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { margin: 0; background: #090d16; color: #94a3b8; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center; }
+    .card { background: #131b2e; border: 1px solid #1e293b; padding: 2rem; border-radius: 12px; max-width: 380px; }
+    h3 { color: #f8fafc; margin-top: 0; font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h3>Live Sandbox Ready</h3>
+    <p style="font-size: 13px;">Write HTML, CSS, or JavaScript in the editor to see your live changes rendered here in real time.</p>
+  </div>
+</body>
+</html>`;
 
     // Inline CSS files
     cssFiles.forEach(css => {

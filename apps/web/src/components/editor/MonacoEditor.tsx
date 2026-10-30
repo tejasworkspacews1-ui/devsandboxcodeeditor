@@ -15,6 +15,8 @@ import Editor from '@monaco-editor/react';
 import { useAppStore } from '../../stores';
 import type { FileNode } from '../../types';
 import { versionHistory } from '../../services/versionHistory';
+import { getStarterTemplates } from '../../utils/starterTemplates';
+import { FilePlus, Terminal, Sparkles, Code2, Play } from 'lucide-react';
 
 interface MonacoEditorProps {
   file: FileNode | undefined;
@@ -26,8 +28,13 @@ export function MonacoEditorComponent({ file, onFormat }: MonacoEditorProps) {
   const updateFile = useAppStore(s => s.updateFile);
   const addNotification = useAppStore(s => s.addNotification);
   const updateTab = useAppStore(s => s.updateTab);
+  const addTab = useAppStore(s => s.addTab);
   const activeTabId = useAppStore(s => s.activeTabId);
   const currentProjectId = useAppStore(s => s.currentProjectId);
+  const setFiles = useAppStore(s => s.setFiles);
+  const selectFile = useAppStore(s => s.selectFile);
+  const createFile = useAppStore(s => s.createFile);
+  const setLayout = useAppStore(s => s.setLayout);
   const files = useAppStore(s => s.files);
   const user = useAppStore(s => s.user);
   const editorRef = useRef<any>(null);
@@ -244,12 +251,136 @@ export function MonacoEditorComponent({ file, onFormat }: MonacoEditorProps) {
     renameSymbol,
   }), [formatDocument, goToDefinition, renameSymbol]);
   
+  const handleLoadTemplate = (type: 'react' | 'web' | 'python') => {
+    const templates = getStarterTemplates();
+    const templateFiles = templates[type];
+    setFiles(templateFiles);
+    
+    const primary = templateFiles.find(f => f.name === 'App.tsx' || f.name === 'index.html' || f.name === 'main.py') || templateFiles[0];
+    if (primary) {
+      addTab({
+        id: `tab_${primary.id}`,
+        fileId: primary.id,
+        name: primary.name,
+        path: primary.path,
+        content: primary.content || '',
+        language: primary.name.split('.').pop() || 'plaintext',
+        modified: false,
+        pinned: false,
+      });
+      selectFile(primary.id);
+    }
+    
+    if (currentProjectId) {
+      useAppStore.getState().updateProject(currentProjectId, { files: templateFiles });
+    }
+    addNotification({ type: 'success', message: `Loaded ${type.toUpperCase()} template into workspace!` });
+  };
+
+  const handleCreateNewFile = () => {
+    const now = Date.now();
+    const newFile: FileNode = {
+      id: `file_${now}`,
+      name: 'index.html',
+      path: '/index.html',
+      type: 'file',
+      content: '<!DOCTYPE html>\n<html>\n<head>\n  <title>New Project</title>\n</head>\n<body>\n  <h1>Hello from DevSandbox!</h1>\n</body>\n</html>\n',
+      createdAt: now,
+      updatedAt: now,
+    };
+    createFile(newFile);
+    addTab({
+      id: `tab_${newFile.id}`,
+      fileId: newFile.id,
+      name: newFile.name,
+      path: newFile.path,
+      content: newFile.content || '',
+      language: 'html',
+      modified: false,
+      pinned: false,
+    });
+    selectFile(newFile.id);
+    addNotification({ type: 'success', message: 'Created index.html' });
+  };
+
   if (!file) {
     return (
-      <div className="h-full flex flex-col items-center justify-center bg-ide-bg text-ide-textSecondary">
-        <div className="text-6xl mb-4 opacity-20">{} </div>
-        <p className="text-sm">No file selected</p>
-        <p className="text-xs mt-2 opacity-60">Open a file from the explorer to start editing</p>
+      <div className="h-full flex flex-col items-center justify-center bg-[#18181b] text-zinc-300 p-6 select-none overflow-y-auto">
+        <div className="max-w-md w-full flex flex-col items-center text-center">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white mb-4 shadow-lg shadow-blue-500/20 font-bold text-lg">
+            DS
+          </div>
+          
+          <h2 className="text-lg font-bold text-zinc-100 tracking-tight">DevSandbox Code Studio</h2>
+          <p className="text-xs text-zinc-400 mt-1 mb-6 leading-relaxed">
+            Professional browser-based developer workspace with live compilation and multi-tenant persistence.
+          </p>
+
+          <div className="w-full flex flex-col gap-2 mb-6">
+            <button
+              onClick={handleCreateNewFile}
+              className="w-full py-2 px-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-zinc-700 rounded-lg text-xs font-medium flex items-center justify-between transition-colors group"
+            >
+              <div className="flex items-center gap-2">
+                <FilePlus size={14} className="text-blue-400" />
+                <span>Create New File (index.html)</span>
+              </div>
+              <span className="text-[10px] text-zinc-500 group-hover:text-zinc-400 font-mono">⌘N</span>
+            </button>
+
+            <button
+              onClick={() => handleLoadTemplate('react')}
+              className="w-full py-2 px-3 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 rounded-lg text-xs font-medium flex items-center justify-between transition-colors group"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-cyan-400 font-bold">⚛️</span>
+                <span>Load React Starter Template</span>
+              </div>
+              <span className="text-[10px] text-zinc-500 group-hover:text-zinc-400 font-mono">App.tsx</span>
+            </button>
+
+            <button
+              onClick={() => handleLoadTemplate('web')}
+              className="w-full py-2 px-3 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 rounded-lg text-xs font-medium flex items-center justify-between transition-colors group"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-orange-400 font-bold">🌐</span>
+                <span>Load HTML5 / CSS / JS Starter</span>
+              </div>
+              <span className="text-[10px] text-zinc-500 group-hover:text-zinc-400 font-mono">Full Web</span>
+            </button>
+
+            <button
+              onClick={() => handleLoadTemplate('python')}
+              className="w-full py-2 px-3 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 rounded-lg text-xs font-medium flex items-center justify-between transition-colors group"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-400 font-bold">🐍</span>
+                <span>Load Python Console Starter</span>
+              </div>
+              <span className="text-[10px] text-zinc-500 group-hover:text-zinc-400 font-mono">main.py</span>
+            </button>
+
+            <button
+              onClick={() => setLayout({ panelCollapsed: false, bottomTab: 'terminal' })}
+              className="w-full py-2 px-3 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 border border-zinc-800/60 rounded-lg text-xs flex items-center justify-between transition-colors group"
+            >
+              <div className="flex items-center gap-2">
+                <Terminal size={14} className="text-zinc-400" />
+                <span>Open Terminal Panel</span>
+              </div>
+              <span className="text-[10px] text-zinc-500 group-hover:text-zinc-400 font-mono">Ctrl+`</span>
+            </button>
+          </div>
+
+          <div className="pt-4 border-t border-zinc-800 w-full flex items-center justify-center gap-4 text-[11px] text-zinc-500">
+            <span>Tejas Kamble</span>
+            <span>•</span>
+            <span>Multi-Tenant Architecture</span>
+            <span>•</span>
+            <span>Universal Dark Theme</span>
+          </div>
+        </div>
       </div>
     );
   }

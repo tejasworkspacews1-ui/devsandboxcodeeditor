@@ -52,21 +52,21 @@ export function HeaderBar() {
       <div className="flex items-center gap-2 min-w-0">
         <button
           onClick={handleOpenAccount}
-          className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/25 transition-colors font-medium flex-shrink-0"
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-800/80 hover:bg-zinc-700 text-zinc-200 border border-zinc-750 transition-colors font-medium flex-shrink-0"
           title="Switch Tenant Workspace"
         >
-          <Building2 size={12} />
+          <Building2 size={12} className="text-zinc-400" />
           <span className="truncate max-w-[140px]">{activeTenant?.name || 'Workspace'}</span>
         </button>
 
-        <span className="text-ide-border font-light select-none">/</span>
+        <span className="text-zinc-600 font-light select-none">/</span>
 
-        <span className="font-semibold text-ide-text truncate">
+        <span className="font-semibold text-zinc-200 truncate">
           {currentProject?.name || 'DevSandbox'}
         </span>
 
         {currentProject && (
-          <span className="hidden md:inline-block text-[10px] text-ide-textSecondary px-1.5 py-0.2 rounded bg-ide-sidebar border border-ide-border">
+          <span className="hidden md:inline-block text-[10px] text-zinc-400 px-1.5 py-0.5 rounded bg-zinc-800/60 border border-zinc-700/60">
             {currentProject.files.length} files
           </span>
         )}
@@ -76,33 +76,33 @@ export function HeaderBar() {
       <div className="flex items-center gap-2">
         <button
           onClick={togglePreview}
-          className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-medium transition-colors ${
+          className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium transition-colors border ${
             showPreview 
-              ? 'bg-ide-accent text-white shadow-sm' 
-              : 'bg-ide-sidebar text-ide-text border border-ide-border hover:bg-ide-hover'
+              ? 'bg-zinc-800 text-zinc-100 border-zinc-700 hover:bg-zinc-750 shadow-sm' 
+              : 'bg-zinc-900/60 text-zinc-400 border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200'
           }`}
           title="Toggle In-Browser Live Preview"
         >
-          {showPreview ? <EyeOff size={13} /> : <Eye size={13} />}
+          {showPreview ? <EyeOff size={13} className="text-zinc-400" /> : <Eye size={13} className="text-zinc-400" />}
           <span>{showPreview ? 'Hide Preview' : 'Show Preview'}</span>
         </button>
 
         <button
           onClick={handleRun}
           disabled={isLoading}
-          className={`flex items-center gap-1.5 px-3 py-1 font-medium rounded transition-colors disabled:opacity-50 ${
+          className={`flex items-center gap-1.5 px-3 py-1 font-medium rounded text-xs transition-colors disabled:opacity-50 ${
             runtimeRunning
-              ? 'bg-red-600 text-white hover:bg-red-700'
-              : 'bg-emerald-600 text-white hover:bg-emerald-700'
+              ? 'bg-red-600/90 hover:bg-red-600 text-white'
+              : 'bg-emerald-600/90 hover:bg-emerald-500 text-white shadow-sm'
           }`}
           title={runtimeRunning ? 'Stop Server' : 'Run Project In Sandbox'}
         >
           {isLoading ? (
-            <Loader2 size={13} className="animate-spin" />
+            <Loader2 size={12} className="animate-spin" />
           ) : runtimeRunning ? (
-            <Square size={13} />
+            <Square size={12} />
           ) : (
-            <Play size={13} />
+            <Play size={12} />
           )}
           <span>{isLoading ? 'Starting...' : runtimeRunning ? 'Stop' : 'Run'}</span>
         </button>
@@ -110,13 +110,13 @@ export function HeaderBar() {
         {/* User Badge */}
         <button
           onClick={handleOpenAccount}
-          className="flex items-center gap-1.5 pl-2 border-l border-ide-border text-ide-textSecondary hover:text-ide-text transition-colors"
+          className="flex items-center gap-1.5 pl-2 border-l border-zinc-800 text-zinc-400 hover:text-zinc-200 transition-colors"
           title="Multi-Tenant Account & Dashboard"
         >
-          <div className="w-5 h-5 rounded-full bg-ide-accent flex items-center justify-center text-white text-[10px] font-bold">
+          <div className="w-5 h-5 rounded-full bg-zinc-700 border border-zinc-600/80 flex items-center justify-center text-zinc-100 text-[10px] font-semibold">
             {(user?.name || 'Tejas').charAt(0).toUpperCase()}
           </div>
-          <span className="hidden lg:inline text-[11px] font-medium text-ide-text">
+          <span className="hidden lg:inline text-[11px] font-medium text-zinc-300">
             {user?.name || 'Tejas Kamble'}
           </span>
         </button>
